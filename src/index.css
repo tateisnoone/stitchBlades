@@ -64,3 +64,21 @@
     @apply bg-background text-foreground;
   }
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "UnifrakturMaguntia", serif;
+}
+p {
+  font-family: "Libre Baskerville", serif;
+}
+
+@font-face {
+  font-family: "fontKa";
+  src: url("/src/assets/fonts/fontka.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}

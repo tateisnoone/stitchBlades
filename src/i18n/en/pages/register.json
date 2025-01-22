@@ -1,0 +1,18 @@
+{
+  "Header": "Sign Up For StitchBlades",
+  "Text": "Create your account to add your own outfits",
+  "Name": "Full Name",
+  "UserName": "UserName",
+  "Email": "Email",
+  "Password": "Password",
+  "Confirm": "Confirm Password",
+  "Sign-Up": "Sign Up",
+  "HaveAccount": "Already have an account?",
+  "Sign-In": "Sign In",
+  "EmailRequired": "Email is required",
+  "PasswordRequired": "Password is required",
+  "NameRequired": "Name is required",
+  "InvalidEmail": "Email format is incorrect",
+  "MinLength": "Name should cointain more than 3 characters (╥﹏╥)",
+  "PasswordMatch": "Passwords don't match"
+}

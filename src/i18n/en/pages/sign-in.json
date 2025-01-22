@@ -1,0 +1,12 @@
+{
+  "Header": "Log in to StitchBlades",
+  "Text": "Enter your credentials to access your account",
+  "Email": "Email",
+  "Password": "Password",
+  "Log-In": "Log In",
+  "Forgot": "Forgot Password?",
+  "HaveAccount": "Don't have an account?",
+  "Sign-Up": "Sign Up",
+  "EmailRequired": "Email is required",
+  "PasswordRequired": "Password is required"
+}
