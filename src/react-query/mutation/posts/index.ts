@@ -12,7 +12,11 @@ export const useCreatePost = () => {
       userId,
     }: {
       imageFile: File;
-      formValues: { title: string; description: string; category: CategoryType };
+      formValues: {
+        title: string;
+        description: string;
+        category: CategoryType;
+      };
       userId: string;
     }) => createPost(imageFile, formValues, userId),
   });

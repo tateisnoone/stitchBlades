@@ -111,7 +111,7 @@ const ProfileTabs = () => {
 
                           <CardDescription>
                             <NavLink to={""} className="hover:underline">
-                              {post.profiles.username},
+                              {post?.profiles?.username || "Unknown User"}
                             </NavLink>{" "}
                             {formatCreatedAt(post.created_at)}
                           </CardDescription>
