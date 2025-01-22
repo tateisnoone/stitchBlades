@@ -46,10 +46,27 @@ export type Post = {
     | null;
   profiles: {
     username: string | null;
-  };
+  } | null;
   user_id: string | null;
   created_at: string;
   id: number;
 
   stitched_count: number | null;
 };
+
+export type CategoryType =
+  | "Punk"
+  | "Gothic"
+  | "Grunge"
+  | "Emo"
+  | "Steampunk"
+  | "Cyberpunk"
+  | "Vintage/Retro"
+  | "Cottagecore"
+  | "Fairycore"
+  | "Y2K"
+  | "Casual"
+  | "K-Fashion"
+  | "Anime"
+  | "Fantasy"
+  | "Medieval";

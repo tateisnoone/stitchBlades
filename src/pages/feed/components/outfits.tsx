@@ -173,7 +173,7 @@ const OutfitsFeed: React.FC = () => {
 
                         <CardDescription>
                           <NavLink to={""} className="hover:underline">
-                            {post.profiles.username},
+                            {post?.profiles?.username},
                           </NavLink>{" "}
                           {formatCreatedAt(post.created_at)}
                         </CardDescription>

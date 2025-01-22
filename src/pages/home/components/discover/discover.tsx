@@ -58,7 +58,7 @@ const Discover = () => {
                   <CardTitle className="font-body">{post?.title}</CardTitle>
                   <CardDescription>
                     <NavLink to={""} className="hover:underline">
-                      {post.profiles.username},
+                      {post?.profiles?.username},
                     </NavLink>{" "}
                     {formatCreatedAt(post.created_at)}
                   </CardDescription>

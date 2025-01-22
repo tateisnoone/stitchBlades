@@ -1,5 +1,5 @@
 import { supabase } from "..";
-import { Post } from "./index.types";
+import { CategoryType, Post } from "./index.types";
 
 export const getPosts = async (): Promise<Post[]> => {
   try {
@@ -20,7 +20,11 @@ export const getPosts = async (): Promise<Post[]> => {
 
 export const createPost = async (
   imageFile: File,
-  formValues: { title: string; description: string; category: string },
+  formValues: {
+    title: string;
+    description: string;
+    category: CategoryType;
+  },
   userId: string,
 ) => {
   if (!imageFile) {

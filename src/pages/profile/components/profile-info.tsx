@@ -68,7 +68,12 @@ const ProfilePage = () => {
                   {" "}
                   {t("profile-page.Username")}: {profileData?.username}
                 </h2>
-                <h2> Birthday: {profileData?.birthday}</h2>
+                <h2>
+                  Birthday:{" "}
+                  {profileData?.birthday
+                    ? new Date(profileData.birthday).toLocaleDateString()
+                    : t("profile-page.AddBirthday")}
+                </h2>
                 <h2> Gender: {profileData?.gender}</h2>
               </CardContent>
               <CardFooter>

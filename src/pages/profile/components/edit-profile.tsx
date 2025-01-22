@@ -35,22 +35,24 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useUpdateProfileInfo } from "@/react-query/mutation/user";
-import { PostInfoPayload } from "@/supabase/posts/index.types";
 import { toast } from "sonner";
+import { FillProfileInfoPayload } from "@/supabase/profile/index.types";
 
 export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState("");
   const user = useAtom(userAtom);
   const navigate = useNavigate();
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState<
+    "Female" | "Male" | "Non-Binary" | "Prefer Not To Say" | null | undefined
+  >(null);
   const [date, setDate] = useState<Date>();
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FillProfileInfoPayload>();
 
   const { mutate: handleProfileInfo } = useUpdateProfileInfo();
   const userId = user[0]?.user.id ?? "";
@@ -72,11 +74,13 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const handleAvatarSelect = (selectedAvatarUrl: string) => {
     setAvatarUrl(selectedAvatarUrl);
   };
-  const handleGenderSelect = (selectedGender: string) => {
+  const handleGenderSelect = (
+    selectedGender: "Female" | "Male" | "Non-Binary" | "Prefer Not To Say",
+  ) => {
     setGender(selectedGender);
   };
 
-  const onSubmit = (fieldValues: PostInfoPayload) => {
+  const onSubmit = (fieldValues: FillProfileInfoPayload) => {
     handleProfileInfo(
       {
         ...fieldValues,

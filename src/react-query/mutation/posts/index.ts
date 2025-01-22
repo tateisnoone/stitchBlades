@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { WRITE_MUTATION_KEY } from "./enum";
 import { createPost, deletePost } from "@/supabase/posts";
+import { CategoryType } from "@/supabase/posts/index.types";
 
 export const useCreatePost = () => {
   return useMutation({
@@ -11,7 +12,7 @@ export const useCreatePost = () => {
       userId,
     }: {
       imageFile: File;
-      formValues: { title: string; description: string; category: string };
+      formValues: { title: string; description: string; category: CategoryType };
       userId: string;
     }) => createPost(imageFile, formValues, userId),
   });

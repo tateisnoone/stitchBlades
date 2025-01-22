@@ -1,8 +1,8 @@
 export type FillProfileInfoPayload = {
   id: string;
+  avatar_url?: string | null;
   full_name?: string | null;
   username?: string | null;
-  avatar_url?: string | null;
   gender:
     | "Female"
     | "Male"

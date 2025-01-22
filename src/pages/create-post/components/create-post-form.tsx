@@ -19,18 +19,19 @@ import {
 } from "@/components/ui/select";
 import { useCreatePost } from "@/react-query/mutation/posts";
 import { categories } from "./categories";
+import { CategoryType } from "@/supabase/posts/index.types";
 
 type FormValues = {
   title: string;
   description: string;
-  category: string;
+  category: CategoryType;
   image_url: File | null;
 };
 
 const defaultValues: FormValues = {
   title: "",
   description: "",
-  category: "",
+  category: "" as CategoryType,
   image_url: null,
 };
 
