@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
   const { t } = useTranslation();
   return (
     <footer className="border-t border-border py-10">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 grid grid-cols-1 lg:grid-cols-3 gap-8 ">
+      <div className="max-w-7xl mx-auto px-4 md:px-8  grid grid-cols-1 lg:grid-cols-3 gap-8 ">
         {/* Brand Section */}
         <div>
           <h2 className="text-2xl font-title font-bold text-primary">

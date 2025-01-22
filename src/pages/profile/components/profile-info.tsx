@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import ProfileInfoPlaceholder from "./profile-info-placeholder";
 import { useProfileInfo } from "@/react-query/query/user";
 
-const ProfilePage = () => {
+const ProfileInfo = () => {
   const user = useAtom(userAtom);
   const { t } = useTranslation();
   const userId = user[0]?.user.id ?? "";
@@ -35,7 +35,7 @@ const ProfilePage = () => {
         <ProfileInfoPlaceholder />
       ) : (
         <div className="flex justify-center gap-5 mb-5 mt-9">
-          <Card className="flex flex-col py-24 px-12 xs:w-[250px] xs:h-[250px] ss:w-[400px] ss:h-[400px]   sm:w-[600px] sm:h-[600px] sm:py-32  rounded-xl border-solid border-b border-zinc-200 bg-card text-card-foreground shadow  mb-5 bg-[url('/src/assets/images/frame1.png')] bg-no-repeat bg-contain dark:bg-[url('/src/assets/images/framewhite1.png')] ">
+          <Card className="flex flex-col p-8 sm:size-[600px] sm:py-32 rounded-xl border-solid border-b border-zinc-200 bg-card text-card-foreground shadow  mb-5 sm:bg-[url('/src/assets/images/frame1.png')] sm:bg-no-repeat sm:bg-contain sm:dark:bg-[url('/src/assets/images/framewhite1.png')] ">
             <div className="flex flex-col  items-center mb-3 ">
               {" "}
               <CardHeader className="p-0 text-center mb-5">
@@ -76,7 +76,7 @@ const ProfilePage = () => {
                 </h2>
                 <h2> Gender: {profileData?.gender}</h2>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="p-0">
                 <EditProfile refetch={refetch} />
               </CardFooter>
             </div>
@@ -87,4 +87,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default ProfileInfo;

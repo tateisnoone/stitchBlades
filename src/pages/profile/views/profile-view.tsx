@@ -1,10 +1,10 @@
-import ProfilePage from "../components/profile-info";
+import ProfileInfo from "../components/profile-info";
 import ProfileTabs from "../components/profile-tabs";
 
 const ProfileView = () => {
   return (
     <>
-      <ProfilePage />
+      <ProfileInfo />
       <ProfileTabs />
     </>
   );

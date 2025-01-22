@@ -8,6 +8,7 @@ import {
 import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
 import { Menu } from "lucide-react";
+import { NavLink } from "react-router-dom";
 const HeaderDropdownMenu = () => {
   const [user] = useAtom(userAtom);
   return (
@@ -19,10 +20,18 @@ const HeaderDropdownMenu = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Sign In</DropdownMenuItem>
-            <DropdownMenuItem>Home</DropdownMenuItem>
-            <DropdownMenuItem>Catalog</DropdownMenuItem>
-            <DropdownMenuItem>About Us</DropdownMenuItem>
+            <NavLink to="/login">
+              <DropdownMenuItem>Log In</DropdownMenuItem>
+            </NavLink>
+            <NavLink to="/">
+              <DropdownMenuItem>Home</DropdownMenuItem>
+            </NavLink>
+            <NavLink to="/feed">
+              <DropdownMenuItem>Outfits</DropdownMenuItem>
+            </NavLink>
+            <NavLink to="/about">
+              <DropdownMenuItem>About Us</DropdownMenuItem>
+            </NavLink>
           </DropdownMenuContent>
         </DropdownMenu>
       )}

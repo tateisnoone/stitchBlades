@@ -14,7 +14,6 @@ import LanguageSwitcher from "./components/lang-switch";
 import { useAtom } from "jotai";
 import { userAtom } from "@/store/auth";
 import { useTranslation } from "react-i18next";
-import { HeartIcon } from "lucide-react";
 import HeaderDropdownMenu from "./components/dropdown-menu";
 import { useLogout } from "@/react-query/mutation/user";
 import { useProfileInfo } from "@/react-query/query/user";
@@ -24,7 +23,7 @@ const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const userId = user[0]?.user.id ?? "";
-  const handleHeartClick = () => {
+  const handleStitchClick = () => {
     if (user) {
       return navigate("/profile");
     }
@@ -35,11 +34,11 @@ const Header = () => {
 
   return (
     <div className="border-solid border-b border-b-zinc-200  dark:border-b-zinc-700 dark:bg-[#1C1C1C] ">
-      <div className="container lg mx-auto px-4 h-20 flex items-center justify-between">
-        <div className="text-2xl font-bold w-20 h-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
+        <div className="text-2xl font-bold size-16 ">
           <NavLink to="/">
             <svg
-              className="dark:fill-white mt-2"
+              className="dark:fill-white size-16"
               id="Layer_1"
               data-name="Layer 1"
               xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +115,7 @@ const Header = () => {
             </svg>
           </NavLink>
         </div>
-        <div className="flex w-80">
+        <div className="hidden lg:flex lg:w-80">
           <nav className="hidden lg:flex w-full justify-between ">
             <NavLink
               to="/"
@@ -138,7 +137,7 @@ const Header = () => {
             </NavLink>
           </nav>
         </div>
-        <div className="w-64 flex justify-between">
+        <div className="w-40 lg:w-64 flex justify-between">
           {userId ? (
             <>
               <NavLink to="create" className="hidden lg:block">
@@ -154,11 +153,11 @@ const Header = () => {
               </Button>
             </NavLink>
           )}
-          <HeartIcon
-            onClick={handleHeartClick}
-            size={34}
-            className="hover:fill-black dark:hover:fill-white  cursor-pointer transition-all "
-          />
+
+          <div
+            onClick={handleStitchClick}
+            className="bg-[url('/src/assets/images/stitchIconB.png')] bg-no-repeat bg-contain dark:bg-[url('/src/assets/images/stitchIconW.png')] size-7 cursor-pointer mt-1"
+          ></div>
           <LanguageSwitcher />
           <ModeToggle />
           <HeaderDropdownMenu />
@@ -198,7 +197,7 @@ const Header = () => {
                       {t("header-page.Home")}
                     </DropdownMenuItem>
                   </NavLink>
-                  <NavLink to="/catalog">
+                  <NavLink to="/feed">
                     <DropdownMenuItem className="lg:hidden">
                       {t("header-page.Outfits")}
                     </DropdownMenuItem>

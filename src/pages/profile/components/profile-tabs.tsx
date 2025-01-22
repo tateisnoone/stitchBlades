@@ -64,7 +64,8 @@ const ProfileTabs = () => {
               My Posts
             </TabsTrigger>
             <TabsTrigger value="stitchedPosts" className="w-1/2">
-              Stitched Posts
+              Stitched Posts{" "}
+              <div className="bg-[url('/src/assets/images/stitchIconB.png')] bg-no-repeat bg-contain dark:bg-[url('/src/assets/images/stitchIconW.png')] size-5 cursor-pointer ml-2"></div>
             </TabsTrigger>
           </TabsList>
           <TabsContent
