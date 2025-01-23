@@ -1,4 +1,6 @@
-export const categories = [
+import { CategoryType } from "@/supabase/posts/index.types";
+
+export const categories: CategoryType[] = [
   "Punk",
   "Gothic",
   "Grunge",

@@ -101,13 +101,17 @@ export const deletePost = async (id: number) => {
 
 export const getPostsBySearch = async (
   search: string | number | null,
+  category?: CategoryType,
 ): Promise<Post[] | []> => {
   try {
     const query = supabase
       .from("outfit_posts")
       .select("*, profiles!outfit_posts_user_id_fkey(username)");
     if (search) {
-      query.like("title", `%${search}%`);
+      query.ilike("title", `%${search}%`);
+    }
+    if (category) {
+      query.eq("category", category);
     }
     const { data, error } = await query;
     if (error) {

@@ -21,7 +21,8 @@ interface PostCardProps {
   post: Post;
   userId: string;
   formatCreatedAt: (createdAt: string) => string;
-  handleDelete: (postId: number) => void; // Change to number
+  handleDelete: (postId: number) => void;
+  style: string;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
@@ -29,6 +30,7 @@ const PostCard: React.FC<PostCardProps> = ({
   userId,
   formatCreatedAt,
   handleDelete,
+  style,
 }) => {
   const postImageUrl = post?.image_url
     ? `${import.meta.env.VITE_SUPABASE_OUTFIT_IMAGES_STORAGE_URL}/${post?.image_url}`
@@ -37,7 +39,7 @@ const PostCard: React.FC<PostCardProps> = ({
   return (
     <Card
       key={post.id}
-      className="rounded-lg border-solid border-b border-zinc-200 dark:border-zinc-700 h-[429px] mb-5 w-[290px]"
+      className={`rounded-lg border-solid border-b border-zinc-200 dark:border-zinc-700 h-[429px] mb-5 ${style}`}
     >
       <CardHeader className="p-0">
         <div

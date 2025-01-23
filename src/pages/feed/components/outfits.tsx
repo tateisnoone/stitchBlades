@@ -19,34 +19,34 @@ import PostLoadingPlaceholder from "./outfits-placeholder";
 import PostCard from "@/components/ui/outfit-card";
 import { useDeletePost } from "@/react-query/mutation/posts";
 import { toast } from "sonner";
+import { useState } from "react";
+import { CategoryType } from "@/supabase/posts/index.types";
 
 export type PostsFilterFormValues = {
   searchText: string;
 };
 
-
 const OutfitsFeed: React.FC = () => {
   const [user] = useAtom(userAtom);
-  const userId = user?.user.id;
-  //
-
+  const [selectedCategory, setSelectedCategory] = useState<
+    CategoryType | undefined
+  >();
   const [searchParams, setSearchParams] = useSearchParams();
   const { mutate: deletePost } = useDeletePost();
-  //
   const { control, watch } = useForm<PostsFilterFormValues>({
     defaultValues: qs.parse(searchParams.toString()) as PostsFilterFormValues,
   });
   const searchText = watch("searchText");
-  //
   const [debouncedSearchText] = useDebounce(searchText, 1000);
-  //
   const {
     data: postsData,
     isLoading,
     isError,
     refetch,
-  } = useGetPostsBySearch(debouncedSearchText);
+  } = useGetPostsBySearch(debouncedSearchText, selectedCategory);
+
   //
+  const userId = user?.user.id;
   const formatCreatedAt = (createdAt: string) => {
     const now = dayjs();
     const postDate = dayjs(createdAt);
@@ -87,6 +87,7 @@ const OutfitsFeed: React.FC = () => {
     }
   };
   //
+
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col justify-center sm:flex-row sm:justify-between gap-1">
@@ -100,11 +101,18 @@ const OutfitsFeed: React.FC = () => {
               Categories
             </AccordionTrigger>
             {categories.map((category) => (
-              <AccordionContent
-                key={category}
-                className="font-body mt-1 self-start"
-              >
-                {category}
+              <AccordionContent>
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`font-body category-button ${
+                    selectedCategory === category
+                      ? "text-[#6A0DAD] font-bold"
+                      : ""
+                  }`}
+                >
+                  {category}
+                </button>
               </AccordionContent>
             ))}
           </AccordionItem>
@@ -143,6 +151,7 @@ const OutfitsFeed: React.FC = () => {
                         userId={userId || ""}
                         formatCreatedAt={formatCreatedAt}
                         handleDelete={handleDelete}
+                        style={"w-[290px]"}
                       />
                     </>
                   );
