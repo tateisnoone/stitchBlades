@@ -1,5 +1,5 @@
 import { supabase } from "..";
-import { CategoryType, Post } from "./index.types";
+import { CategoryType, Post, PostComment, Stitches } from "./index.types";
 
 export const getPosts = async (): Promise<Post[]> => {
   try {
@@ -16,7 +16,93 @@ export const getPosts = async (): Promise<Post[]> => {
   }
 };
 
-// export const getPostsById
+export const getPostById = async (postId: number): Promise<Post | null> => {
+  try {
+    const { data, error } = await supabase
+      .from("outfit_posts")
+      .select("*, profiles!outfit_posts_user_id_fkey(username)")
+      .eq("id", postId)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data || null;
+  } catch (error) {
+    console.error("Error fetching post by ID:", error);
+    throw new Error(`Failed to fetch post by ID: ${error}`);
+  }
+};
+
+export const getComments = async (postId: number): Promise<PostComment[]> => {
+  try {
+    const { data, error } = await supabase
+      .from("post_comments")
+      .select("*")
+      .eq("post_id", postId);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    throw new Error(`Failed to fetch comments: ${error}`);
+  }
+};
+
+export const getStitches = async (postId: number): Promise<Stitches[]> => {
+  try {
+    const { data, error } = await supabase
+      .from("stitched_posts")
+      .select("*")
+      .eq("post_id", postId);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching stitches:", error);
+    throw new Error(`Failed to fetch stitches: ${error}`);
+  }
+};
+
+export const StitchPost = async (postId: number, userId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("stitched_posts")
+      .insert([{ stitched_post: postId, stitched_by: userId }]);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data || [];
+  } catch (error) {
+    console.error("Error stitching post:", error);
+    throw new Error(`Failed to fetch posts: ${error}`);
+  }
+};
+
+export const AddComment = async (
+  userId: string,
+  postId: number,
+  comment_text: string,
+) => {
+  try {
+    const { data, error } = await supabase
+      .from("post_comments")
+      .insert([
+        { post_id: postId, user_id: userId, comment_text: comment_text },
+      ]);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data || [];
+  } catch (error) {
+    console.error("Error commenting on posts:", error);
+    throw new Error(`Failed to fetch posts: ${error}`);
+  }
+};
 
 export const createPost = async (
   imageFile: File,
@@ -122,5 +208,24 @@ export const getPostsBySearch = async (
   } catch (error) {
     console.error(error);
     return [];
+  }
+};
+
+export const getUserStitchedPosts = async (
+  userId: string,
+): Promise<Stitches[]> => {
+  try {
+    const { data, error } = await supabase
+      .from("stitched_posts")
+      .select("*")
+      .eq("stitched_by", userId); // Filter by userId
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching user stitched posts:", error);
+    throw new Error(`Failed to fetch user stitched posts: ${error}`);
   }
 };

@@ -2,12 +2,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetPosts } from "@/react-query/query/posts";
 import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
-import dayjs from "dayjs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useDeletePost } from "@/react-query/mutation/posts";
 import NoPosts from "./no-posts";
 import { toast } from "sonner";
 import PostCard from "@/components/ui/outfit-card";
+import { formatCreatedAt } from "@/utils/date-utils";
 
 const ProfileTabs = () => {
   const user = useAtom(userAtom);
@@ -15,15 +15,7 @@ const ProfileTabs = () => {
   const { data: postsData, refetch } = useGetPosts();
   //const postUserId = postsData?.[1]?.user_id;
   //console.log("postuserid:", postUserId);
-  const formatCreatedAt = (createdAt: string) => {
-    const now = dayjs();
-    const postDate = dayjs(createdAt);
-    if (now.diff(postDate, "day") < 1) {
-      return postDate.fromNow();
-    } else {
-      return postDate.format("HH:mm - DD/MM/YYYY");
-    }
-  };
+
   const { mutate: deletePost } = useDeletePost();
 
   const handleDelete = async (id: number) => {

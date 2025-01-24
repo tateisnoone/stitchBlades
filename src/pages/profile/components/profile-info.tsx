@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
-import defaultpfp from "@/assets/images/defaultpfp.jpg";
+import defaultpfp from "@/assets/images/defaultpfp.webp";
 import { EditProfile } from "./edit-profile";
 import { useTranslation } from "react-i18next";
 import ProfileInfoPlaceholder from "./profile-info-placeholder";

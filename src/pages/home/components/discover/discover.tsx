@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useAtom } from "jotai";
 import { userAtom } from "@/store/auth";
 import { NavLink } from "react-router-dom";
+import { formatCreatedAt } from "@/utils/date-utils";
 
 dayjs.extend(relativeTime);
 
@@ -18,15 +19,7 @@ const Discover = () => {
   const { mutate: deletePost } = useDeletePost();
 
   const userId = user?.user.id;
-  const formatCreatedAt = (createdAt: string) => {
-    const now = dayjs();
-    const postDate = dayjs(createdAt);
-    if (now.diff(postDate, "day") < 1) {
-      return postDate.fromNow();
-    } else {
-      return postDate.format("HH:mm - DD/MM/YYYY");
-    }
-  };
+
   const handleDelete = async (id: number) => {
     try {
       await deletePost(id, {

@@ -14,8 +14,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis } from "lucide-react";
+import { ArrowRight, Ellipsis } from "lucide-react";
 import { Post } from "@/supabase/posts/index.types";
+import { truncateText } from "@/utils/string-utils";
+import { Button } from "./button";
+import { NavLink } from "react-router-dom";
 
 interface PostCardProps {
   post: Post;
@@ -39,7 +42,7 @@ const PostCard: React.FC<PostCardProps> = ({
   return (
     <Card
       key={post.id}
-      className={`rounded-lg border-solid border-b border-zinc-200 dark:border-zinc-700 h-[429px] mb-5 ${style}`}
+      className={`rounded-lg border-solid border-b border-zinc-200 dark:border-zinc-700 h-[440px] mb-5 ${style}`}
     >
       <CardHeader className="p-0">
         <div
@@ -49,9 +52,9 @@ const PostCard: React.FC<PostCardProps> = ({
           }}
         ></div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pb-0 h-20 mb-3">
         <CardTitle className="font-body flex justify-between text-md">
-          {post?.title}
+          {truncateText(post?.title ?? "", 25)}
           {userId === post.user_id ? (
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -74,15 +77,20 @@ const PostCard: React.FC<PostCardProps> = ({
         <CardDescription>
           {post?.profiles?.username}, {formatCreatedAt(post.created_at)}
         </CardDescription>
-        <p className="text-sm">{post?.description}</p>
+        <p className="text-sm">{truncateText(post?.description ?? "", 55)}</p>
       </CardContent>
-      <CardFooter className="flex flex-wrap gap-3">
+      <CardFooter className="flex flex-wrap justify-between">
         <Badge
           variant="outline"
           className="bg-[#EEF2FF] text-[#824ea2] dark:bg-[#f4eeff] dark:text-[#854ea2]"
         >
           {post.category}
         </Badge>
+        <NavLink to={`/post/${post.id}`}>
+          <Button className="bg-inherit border-none font-body text-black dark:text-white  text-sm hover:bg-inherit hover:text-[#6A0DAD] dark:hover:text-[#6A0DAD] transition-all">
+            Details <ArrowRight size={48} strokeWidth={2.25} />
+          </Button>
+        </NavLink>
       </CardFooter>
     </Card>
   );

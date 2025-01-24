@@ -1,4 +1,4 @@
-import OutfitsFeed from "../components/outfits";
+import OutfitsFeed from "../components/outfits-feed";
 
 const FeedView = () => {
   return (

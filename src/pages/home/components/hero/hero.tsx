@@ -1,79 +1,9 @@
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from "@/components/ui/carousel";
-
-import animebg from "@/assets/images/heroanime.jpg";
-import forestbg from "@/assets/images/heroforest.jpg";
-import medievalbg from "@/assets/images/heromedieval.jpg";
-import punkbg from "@/assets/images/heropunk.jpg";
-import herosteampunk from "@/assets/images/herosteampunk.jpg";
+import animebg from "@/assets/images/heroanime.webp";
+import forestbg from "@/assets/images/heroforest.webp";
+import medievalbg from "@/assets/images/heromedieval.webp";
+import punkbg from "@/assets/images/heropunk.webp";
+import herosteampunk from "@/assets/images/herosteampunk.webp";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-// const Hero = () => {
-//   return (
-//     <>
-//       <div className=" flex items-center justify-center w-3/4">
-//         <div
-//           id="carouselExampleIndicators"
-//           className="carousel slide"
-//           data-ride="carousel"
-//         >
-//           <ol className="carousel-indicators">
-//             <li
-//               data-target="#carouselExampleIndicators"
-//               data-slide-to="0"
-//               className="active"
-//             ></li>
-//             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-//             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-//           </ol>
-//           <div className="carousel-inner">
-//             <div className="carousel-item active">
-//               <img className="d-block w-100" src="..." alt="First slide" />
-//             </div>
-//             <div className="carousel-item">
-//               <img className="d-block w-100" src="..." alt="Second slide" />
-//             </div>
-//             <div className="carousel-item">
-//               <img className="d-block w-100" src="..." alt="Third slide" />
-//             </div>
-//           </div>
-//           <a
-//             className="carousel-control-prev"
-//             href="#carouselExampleIndicators"
-//             role="button"
-//             data-slide="prev"
-//           >
-//             <span
-//               className="carousel-control-prev-icon"
-//               aria-hidden="true"
-//             ></span>
-//             <span className="sr-only">Previous</span>
-//           </a>
-//           <a
-//             className="carousel-control-next"
-//             href="#carouselExampleIndicators"
-//             role="button"
-//             data-slide="next"
-//           >
-//             <span
-//               className="carousel-control-next-icon"
-//               aria-hidden="true"
-//             ></span>
-//             <span className="sr-only">Next</span>
-//           </a>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Hero;
-
 import { useEffect, useState } from "react";
 
 const HeroCarousel = () => {

@@ -70,3 +70,20 @@ export type CategoryType =
   | "Anime"
   | "Fantasy"
   | "Medieval";
+
+export type PostComment = {
+  id: number;
+  created_at: string;
+  post_id: number;
+  user_id: string | null;
+  comment_text: string | null;
+  profiles: {
+    username: string | null;
+  } | null;
+};
+export type Stitches = {
+  id: number;
+  created_at: string;
+  stitched_by: string | null;
+  stitched_post: number | null;
+};

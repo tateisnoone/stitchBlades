@@ -1,11 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
-import { WRITE_MUTATION_KEY } from "./enum";
-import { createPost, deletePost } from "@/supabase/posts";
+import { POSTS_MUTATION_KEY } from "./enum";
+import {
+  AddComment,
+  createPost,
+  deletePost,
+  StitchPost,
+} from "@/supabase/posts";
 import { CategoryType } from "@/supabase/posts/index.types";
 
 export const useCreatePost = () => {
   return useMutation({
-    mutationKey: [WRITE_MUTATION_KEY.CREATE_POST_WITH_IMAGE],
+    mutationKey: [POSTS_MUTATION_KEY.CREATE_POST_WITH_IMAGE],
     mutationFn: ({
       imageFile,
       formValues,
@@ -24,7 +29,29 @@ export const useCreatePost = () => {
 
 export const useDeletePost = () => {
   return useMutation({
-    mutationKey: [WRITE_MUTATION_KEY.DELETE_POST],
+    mutationKey: [POSTS_MUTATION_KEY.DELETE_POST],
     mutationFn: deletePost,
+  });
+};
+export const useAddComment = () => {
+  return useMutation({
+    mutationKey: [POSTS_MUTATION_KEY.ADD_COMMENT],
+    mutationFn: ({
+      userId,
+      postId,
+      comment_text,
+    }: {
+      userId: string;
+      postId: number;
+      comment_text: string;
+    }) => AddComment(userId, postId, comment_text),
+  });
+};
+
+export const useStitchPost = () => {
+  return useMutation({
+    mutationKey: [POSTS_MUTATION_KEY.STITCH_POST],
+    mutationFn: ({ postId, userId }: { postId: number; userId: string }) =>
+      StitchPost(postId, userId),
   });
 };
