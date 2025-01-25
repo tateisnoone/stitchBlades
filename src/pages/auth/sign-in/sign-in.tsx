@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "./schema";
 import { useLogin } from "@/react-query/mutation/user";
 import { AUTH_PATHS } from "@/routes/default-layout/auth/index.enum";
+import { toast } from "sonner";
 
 type FormValues = {
   email: string;
@@ -28,8 +29,23 @@ const LogIn: React.FC<PropsWithChildren> = () => {
   });
 
   const onSubmit = (values: FormValues) => {
-    handleLogin(values);
-    console.log("Form submitted successfully", values);
+    handleLogin(values, {
+      onSuccess: () => {
+        toast.success("Login successful!");
+        console.log("Form submitted successfully", values);
+        // Navigate to another page or perform other actions
+      },
+      onError: (err) => {
+        const errorMessage = err?.message || "Login failed. Please try again.";
+        toast.error(errorMessage, {
+          style: {
+            backgroundColor: "#dc2626",
+            color: "#ffffff",
+          },
+        });
+        console.error("Error during login:", err);
+      },
+    });
   };
 
   return (
@@ -64,13 +80,11 @@ const LogIn: React.FC<PropsWithChildren> = () => {
                       placeholder="Email"
                       value={value}
                       onChange={onChange}
-                      required
                     />
-                    {error?.message ? (
-                      <span className="text-[#8B0000] font-body">
-                        {t("sign-in.EmailRequired")}
-                      </span>
-                    ) : null}
+
+                    {error && (
+                      <span className="text-[#8B0000]">{error.message}</span>
+                    )}
                   </>
                 );
               }}
@@ -96,7 +110,6 @@ const LogIn: React.FC<PropsWithChildren> = () => {
                     placeholder="Password"
                     value={value}
                     onChange={onChange}
-                    required
                   />
                 );
               }}
