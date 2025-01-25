@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,6 @@ const DefaultValues = {
   confirm_password: "",
 };
 const Register: React.FC<PropsWithChildren> = () => {
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { mutate: handleRegister } = useRegister();
@@ -32,14 +31,13 @@ const Register: React.FC<PropsWithChildren> = () => {
   });
 
   const onSubmit = (values: FormValues) => {
-    if (values.password !== values.confirm_password) {
-      setAlertMessage("Passwords don't match!");
-      return;
-    }
-    setAlertMessage(null);
+    // if (values.password !== values.confirm_password) {
+    //   setAlertMessage("Passwords don't match!");
+    //   return;
+    // }
+    // setAlertMessage(null);
     handleRegister(values);
     navigate(AUTH_PATHS.FOR_CONFIRM_EMAIL);
-    console.log("Form submitted successfully", values);
   };
 
   return (
@@ -74,13 +72,10 @@ const Register: React.FC<PropsWithChildren> = () => {
                       placeholder="Email"
                       value={value}
                       onChange={onChange}
-                      required
                     />
-                    {error?.message ? (
-                      <span className="text-[#8B0000] font-body">
-                        {t("register-page.InvalidEmail")}
-                      </span>
-                    ) : null}
+                    {error && (
+                      <span className="text-[#8B0000]">{error.message}</span>
+                    )}
                   </>
                 );
               }}
@@ -98,24 +93,32 @@ const Register: React.FC<PropsWithChildren> = () => {
             <Controller
               control={control}
               name="password"
-              render={({ field: { onChange, value } }) => {
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => {
                 return (
-                  <Input
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    value={value}
-                    onChange={onChange}
-                    required
-                  />
+                  <>
+                    <Input
+                      type="password"
+                      id="password"
+                      placeholder="Password"
+                      value={value}
+                      onChange={onChange}
+                    />
+                    {error && (
+                      <span className="text-[#8B0000]">{error.message}</span>
+                    )}
+                  </>
                 );
               }}
             />
-          </div>
 
-          <div className="grid w-full items-center gap-3 mb-5">
+            {/* confirm password */}
+            <div className="grid w-full items-center gap-3 mb-5"></div>
+
             <Label
-              htmlFor="confirm"
+              htmlFor="confirm_password"
               className="text-left text-slate-900 font-body dark:text-[#B0B0B0]"
             >
               {t("register-page.Confirm")}
@@ -123,27 +126,27 @@ const Register: React.FC<PropsWithChildren> = () => {
             <Controller
               control={control}
               name="confirm_password"
-              render={({ field: { value, onChange } }) => {
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
                 return (
                   <>
                     <Input
                       type="password"
-                      id="confirm"
+                      id="confirm_password"
                       placeholder="Confirm Password"
                       value={value}
                       onChange={onChange}
-                      required
                     />
+                    {error && (
+                      <span className="text-[#8B0000]">{error.message}</span>
+                    )}
                   </>
                 );
               }}
             />
           </div>
-          {alertMessage && (
-            <span className="text-[#8B0000] font-body">
-              {t("register-page.PasswordMatch")}
-            </span>
-          )}
 
           {/* Submit Button */}
           <Button
