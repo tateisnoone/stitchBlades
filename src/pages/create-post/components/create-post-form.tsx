@@ -20,6 +20,7 @@ import {
 import { useCreatePost } from "@/react-query/mutation/posts";
 import { categories } from "./categories";
 import { CategoryType } from "@/supabase/posts/index.types";
+import { toast } from "sonner";
 
 type FormValues = {
   title: string;
@@ -41,41 +42,47 @@ const CreatePostForm = () => {
   const user = useAtom(userAtom);
   const userId = user[0]?.user.id ?? "";
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FormValues>({
+  const { control, handleSubmit, reset } = useForm<FormValues>({
     resolver: zodResolver(createFormSchema),
     defaultValues,
   });
   const { mutate: createPost } = useCreatePost();
 
   const onSubmit = async (formValues: FormValues) => {
-    console.log("Form submitted:", formValues);
-
-    if (formValues?.image_url) {
-      try {
-        const post = createPost({
-          imageFile: formValues.image_url,
-          formValues: {
-            title: formValues.title,
-            description: formValues.description,
-            category: formValues.category,
-          },
-          userId: userId,
-        });
-
-        console.log("Post created successfully:", post);
-        setShowAlert(true);
-        reset();
-      } catch (error) {
-        console.error("Error submitting post:", error);
-      }
-    } else {
-      console.error("Image file is required.");
+    if (!formValues.image_url) {
+      toast.error("Image file is required.");
+      return;
     }
+
+    createPost(
+      {
+        imageFile: formValues.image_url,
+        formValues: {
+          title: formValues.title,
+          description: formValues.description,
+          category: formValues.category,
+        },
+        userId,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Post created successfully!");
+          setShowAlert(true);
+          reset();
+        },
+        onError: (err) => {
+          toast.error(
+            err?.message || "Post couldn't be created. Please try again.",
+            {
+              style: {
+                backgroundColor: "#8B0000",
+                color: "#ffffff",
+              },
+            },
+          );
+        },
+      },
+    );
   };
 
   return (
@@ -97,19 +104,16 @@ const CreatePostForm = () => {
             <Controller
               control={control}
               name="title"
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <>
                   <Input
                     type="text"
                     id="title"
                     placeholder={t("create-post.TitlePlaceholder")}
                     {...field}
-                    required
                   />
-                  {errors.title && (
-                    <span className="text-[#8B0000]">
-                      {errors.title.message}
-                    </span>
+                  {error && (
+                    <span className="text-[#8B0000]">{error.message}</span>
                   )}
                 </>
               )}
@@ -127,19 +131,16 @@ const CreatePostForm = () => {
             <Controller
               control={control}
               name="description"
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <>
                   <Textarea
                     id="description"
                     placeholder={t("create-post.Describe")}
                     {...field}
                     className="resize-none"
-                    required
                   />
-                  {errors.description && (
-                    <span className="text-[#8B0000]">
-                      {errors.description.message}
-                    </span>
+                  {error && (
+                    <span className="text-[#8B0000]">{error.message}</span>
                   )}
                 </>
               )}
@@ -157,26 +158,33 @@ const CreatePostForm = () => {
             <Controller
               name="category"
               control={control}
-              render={({ field }) => (
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                  }}
-                >
-                  <SelectTrigger className=" h-10  border ">
-                    <SelectValue
-                      placeholder={t("create-post.CategoryPlaceholder")}
-                    />
-                  </SelectTrigger>
-                  <SelectContent className="text-sans">
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              render={({ field, fieldState: { error } }) => (
+                <div>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                    }}
+                  >
+                    <SelectTrigger className="h-10 border">
+                      <SelectValue
+                        placeholder={t("create-post.CategoryPlaceholder")}
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="text-sans">
+                      {categories.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {error && (
+                    <span className="text-[#8B0000] text-sm mt-1 block">
+                      {error.message}
+                    </span>
+                  )}
+                </div>
               )}
             />
           </div>
@@ -184,7 +192,7 @@ const CreatePostForm = () => {
           {/* Image */}
           <div className="grid w-full items-center gap-3 mb-5">
             <Label
-              htmlFor="category"
+              htmlFor="image_url"
               className="text-left text-slate-900 dark:text-[#B0B0B0]"
             >
               {t("create-post.UploadImg")}
@@ -203,14 +211,12 @@ const CreatePostForm = () => {
                         const file = e.target.files?.[0];
                         onChange(file);
                       }}
+                      accept=".jpg,.jpeg,.png,.webp"
                       className="bg-inherit border-none p-0 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 h-full"
-                      required
                     />
-                    {error?.message ? (
-                      <span className="text-[#8B0000] font-body">
-                        {t("register-page.InvalidEmail")}
-                      </span>
-                    ) : null}
+                    {error && (
+                      <span className="text-[#8B0000]">{error.message}</span>
+                    )}
                   </>
                 );
               }}

@@ -22,7 +22,7 @@ const DefaultValues = {
 };
 const LogIn: React.FC<PropsWithChildren> = () => {
   const { t } = useTranslation();
-  const { mutate: handleLogin } = useLogin();
+  const { mutate: handleLogin, isError } = useLogin();
   const { control, handleSubmit } = useForm<FormValues>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: DefaultValues,
@@ -32,18 +32,15 @@ const LogIn: React.FC<PropsWithChildren> = () => {
     handleLogin(values, {
       onSuccess: () => {
         toast.success("Login successful!");
-        console.log("Form submitted successfully", values);
-        // Navigate to another page or perform other actions
       },
       onError: (err) => {
         const errorMessage = err?.message || "Login failed. Please try again.";
         toast.error(errorMessage, {
           style: {
-            backgroundColor: "#dc2626",
+            backgroundColor: "#8B0000",
             color: "#ffffff",
           },
         });
-        console.error("Error during login:", err);
       },
     });
   };
@@ -81,7 +78,6 @@ const LogIn: React.FC<PropsWithChildren> = () => {
                       value={value}
                       onChange={onChange}
                     />
-
                     {error && (
                       <span className="text-[#8B0000]">{error.message}</span>
                     )}
@@ -115,7 +111,11 @@ const LogIn: React.FC<PropsWithChildren> = () => {
               }}
             />
           </div>
-
+          {isError ? (
+            <span className="text-[#8B0000]">
+              Invalid email or password. Please try again
+            </span>
+          ) : null}
           {/* Submit Button */}
           <Button
             className="bg-[#6A0DAD] hover:bg-[#6a0dadb3] text-base font-body dark:text-[#B0B0B0] w-full mb-5 mt-5"
