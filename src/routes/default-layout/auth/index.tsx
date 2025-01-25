@@ -2,6 +2,7 @@ import { Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import AuthorizedGuard from "@/components/route-guards/auth/is-authorized";
 import { AUTH_PATHS } from "./index.enum";
+import Loader from "@/components/ui/loading";
 
 const RegisterLazy = lazy(() => import("@/pages/auth/register/register"));
 const EmailConfirmationLazy = lazy(
@@ -14,7 +15,7 @@ export const AUTH_ROUTES = [
       path={AUTH_PATHS.FOR_REGISTER}
       element={
         <AuthorizedGuard>
-          <Suspense fallback={<span>Loading</span>}>
+          <Suspense fallback={<Loader />}>
             <RegisterLazy />
           </Suspense>
         </AuthorizedGuard>
@@ -23,7 +24,7 @@ export const AUTH_ROUTES = [
     <Route
       path={AUTH_PATHS.FOR_CONFIRM_EMAIL}
       element={
-        <Suspense fallback={<span>Loading</span>}>
+        <Suspense fallback={<Loader />}>
           <EmailConfirmationLazy />
         </Suspense>
       }
@@ -32,7 +33,7 @@ export const AUTH_ROUTES = [
       path={AUTH_PATHS.FOR_LOGIN}
       element={
         <AuthorizedGuard>
-          <Suspense fallback={<span>Loading</span>}>
+          <Suspense fallback={<Loader />}>
             <LogInLazy />
           </Suspense>
         </AuthorizedGuard>

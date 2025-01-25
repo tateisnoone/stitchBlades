@@ -4,9 +4,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { supabase } from "./supabase";
 import { userAtom } from "./store/auth";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import DefaultLayout from "./layout/default-layout";
 import { DEFAULT_LAYOUT_ROUTES } from "./routes/default-layout";
+import Loader from "./components/ui/loading";
 
 const App: React.FC = () => {
   const [, setUser] = useAtom(userAtom);
@@ -41,10 +42,12 @@ const App: React.FC = () => {
   return (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <Routes>
-          <Route element={<DefaultLayout />}>{DEFAULT_LAYOUT_ROUTES}</Route>
-          <Route path="/" element={<Navigate to="/" />} />
-        </Routes>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route element={<DefaultLayout />}>{DEFAULT_LAYOUT_ROUTES}</Route>
+            <Route path="/" element={<Navigate to="/" />} />
+          </Routes>
+        </Suspense>
       </ThemeProvider>
     </>
   );

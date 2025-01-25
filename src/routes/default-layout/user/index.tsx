@@ -2,6 +2,7 @@ import { Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import UnauthorizedGuard from "@/components/route-guards/auth/is-unauthorized";
 import { USER_PATHS } from "./index.enum";
+import Loader from "@/components/ui/loading";
 
 const ProfileViewLazy = lazy(
   () => import("@/pages/profile/views/profile-view"),
@@ -19,7 +20,7 @@ export const USER_ROUTES = [
       path={USER_PATHS.FOR_PROFILE}
       element={
         <UnauthorizedGuard>
-          <Suspense fallback={<span>Loading</span>}>
+          <Suspense fallback={<Loader />}>
             <ProfileViewLazy />
           </Suspense>
         </UnauthorizedGuard>
@@ -29,7 +30,7 @@ export const USER_ROUTES = [
       path={USER_PATHS.FOR_CREATE}
       element={
         <UnauthorizedGuard>
-          <Suspense fallback={<span>Loading</span>}>
+          <Suspense fallback={<Loader />}>
             <CreatePostViewLazy />
           </Suspense>
         </UnauthorizedGuard>
@@ -38,7 +39,7 @@ export const USER_ROUTES = [
     <Route
       path={USER_PATHS.FOR_FEED}
       element={
-        <Suspense fallback={<span>Loading</span>}>
+        <Suspense fallback={<Loader />}>
           <FeedViewLazy />
         </Suspense>
       }
@@ -46,7 +47,7 @@ export const USER_ROUTES = [
     <Route
       path={USER_PATHS.FOR_POST}
       element={
-        <Suspense fallback={<span>Loading</span>}>
+        <Suspense fallback={<Loader />}>
           <PostByIdViewLazy />
         </Suspense>
       }
