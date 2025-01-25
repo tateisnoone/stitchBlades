@@ -24,7 +24,6 @@ export const getPostById = async (postId: number): Promise<Post | null> => {
     }
     return data || null;
   } catch (error) {
-    console.error("Error fetching post by ID:", error);
     throw new Error(`Failed to fetch post by ID: ${error}`);
   }
 };
@@ -40,7 +39,6 @@ export const getComments = async (postId: number): Promise<PostComment[]> => {
     }
     return data || [];
   } catch (error) {
-    console.error("Error fetching comments:", error);
     throw new Error(`Failed to fetch comments: ${error}`);
   }
 };
@@ -56,7 +54,6 @@ export const getStitches = async (postId: number): Promise<Stitches[]> => {
     }
     return data || [];
   } catch (error) {
-    console.error("Error fetching stitches:", error);
     throw new Error(`Failed to fetch stitches: ${error}`);
   }
 };
@@ -72,7 +69,6 @@ export const StitchPost = async (postId: number, userId: string) => {
     }
     return data || [];
   } catch (error) {
-    console.error("Error stitching post:", error);
     throw new Error(`Failed to fetch posts: ${error}`);
   }
 };
@@ -94,7 +90,6 @@ export const AddComment = async (
     }
     return data || [];
   } catch (error) {
-    console.error("Error commenting on posts:", error);
     throw new Error(`Failed to fetch posts: ${error}`);
   }
 };
@@ -134,8 +129,7 @@ export const createPost = async (
 
     return postInsertResult.data;
   } catch (error) {
-    console.error("Error creating post:", error);
-    throw error;
+    throw new Error(`Failed to fetch posts: ${error}`);
   }
 };
 
@@ -156,7 +150,6 @@ export const deletePost = async (id: number) => {
       const { error: deleteImageError } = await supabase.storage
         .from("outfit_image")
         .remove([imagePath]);
-      console.log("post image:", post.image_url);
       if (deleteImageError) {
         throw new Error(deleteImageError.message);
       }
@@ -173,7 +166,6 @@ export const deletePost = async (id: number) => {
 
     return data;
   } catch (error) {
-    console.error("Error deleting post:", error);
     throw new Error(
       `Failed to delete blog: ${error instanceof Error ? error.message : error}`,
     );
@@ -196,7 +188,6 @@ export const getPostsBySearch = async (
     }
     const { data, error } = await query;
     if (error) {
-      console.error(error.message);
       throw new Error(error.message);
     }
     return data ?? [];
