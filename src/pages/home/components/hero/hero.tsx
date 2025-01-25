@@ -5,8 +5,10 @@ import punkbg from "@/assets/images/heropunk.webp";
 import herosteampunk from "@/assets/images/herosteampunk.webp";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const HeroCarousel = () => {
+  const { t } = useTranslation();
   // Images for the carousel
   const images = [forestbg, animebg, medievalbg, punkbg, herosteampunk];
 
@@ -39,14 +41,9 @@ const HeroCarousel = () => {
       >
         {" "}
         <div className=" flex flex-col gap-2 text-white h-40">
-          <h1 className="text-[40px]">Your Outfit. Your Story.</h1>
-          <p className="hidden sm:block">
-            Discover unique outfits, share your style, and get inspired every
-            day.
-          </p>
-          <p className="hidden sm:block">
-            A community of fashion rebels, creators, and dreamers.
-          </p>
+          <h1 className="text-[40px]"> {t("home-page.HeroTitle")}</h1>
+          <p className="hidden sm:block">{t("home-page.HeroText")}</p>
+          <p className="hidden sm:block">{t("home-page.HeroText2")}</p>
         </div>
         <button
           onClick={prevSlide}

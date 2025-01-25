@@ -228,7 +228,7 @@ const CreatePostForm = () => {
         {showAlert && (
           <Alert className="bg-green-100">
             <AlertTitle className="font-lg dark:text-black">
-              † ཐིpost addedཋྀ †
+              † ཐི{t("create-post.PostAdded")}ཋྀ †
             </AlertTitle>
           </Alert>
         )}

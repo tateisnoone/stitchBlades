@@ -17,6 +17,9 @@ import { useTranslation } from "react-i18next";
 import HeaderDropdownMenu from "./components/dropdown-menu";
 import { useLogout } from "@/react-query/mutation/user";
 import { useProfileInfo } from "@/react-query/query/user";
+import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
+import { AUTH_PATHS } from "@/routes/default-layout/auth/index.enum";
+import { STATIC_PATHS } from "@/routes/default-layout/static/index.enum";
 
 const Header = () => {
   const user = useAtom(userAtom);
@@ -25,9 +28,9 @@ const Header = () => {
   const userId = user[0]?.user.id ?? "";
   const handleStitchClick = () => {
     if (user) {
-      return navigate("/profile");
+      return navigate(USER_PATHS.FOR_PROFILE);
     }
-    return navigate("/login");
+    return navigate(AUTH_PATHS.FOR_LOGIN);
   };
   const { data: profileData } = useProfileInfo(userId);
   const { mutate: handleLogout } = useLogout();
@@ -118,19 +121,19 @@ const Header = () => {
         <div className="hidden lg:flex lg:w-80">
           <nav className="hidden lg:flex w-full justify-between ">
             <NavLink
-              to="/"
+              to={STATIC_PATHS.FOR_HOME}
               className="text-[#333333] hover:text-[#6A0DAD] dark:text-[#E5E5E5] dark:hover:text-[#6A0DAD] font-title text-xl"
             >
               {t("header-page.Home")}
             </NavLink>
             <NavLink
-              to="/feed"
+              to={USER_PATHS.FOR_FEED}
               className="text-[#333333] hover:text-[#6A0DAD] dark:text-[#E5E5E5] dark:hover:text-[#6A0DAD] font-title text-xl"
             >
               {t("header-page.Outfits")}
             </NavLink>
             <NavLink
-              to="/about"
+              to={STATIC_PATHS.FOR_ABOUT}
               className="text-[#333333] hover:text-[#6A0DAD] dark:text-[#E5E5E5] dark:hover:text-[#6A0DAD] font-title text-xl"
             >
               {t("header-page.About")}
@@ -140,14 +143,14 @@ const Header = () => {
         <div className="w-40 lg:w-64 flex justify-between">
           {userId ? (
             <>
-              <NavLink to="create" className="hidden lg:block">
+              <NavLink to={USER_PATHS.FOR_CREATE} className="hidden lg:block">
                 <Button className="bg-[#6A0DAD] hover:bg-[#6a0dadb3] font-title text-lg">
                   {t("header-page.Create")}
                 </Button>
               </NavLink>
             </>
           ) : (
-            <NavLink to="login" className="hidden lg:block">
+            <NavLink to={AUTH_PATHS.FOR_LOGIN} className="hidden lg:block">
               <Button className="bg-[#6A0DAD] hover:bg-[#6a0dadb3] font-title text-lg w-32">
                 {t("header-page.SignIn")}
               </Button>
@@ -175,12 +178,12 @@ const Header = () => {
                     {t("header-page.MyAccount")}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <NavLink to="/profile">
+                  <NavLink to={USER_PATHS.FOR_PROFILE}>
                     <DropdownMenuItem>
                       {t("header-page.Profile")}
                     </DropdownMenuItem>
                   </NavLink>
-                  <NavLink to="/create" className="lg:hidden">
+                  <NavLink to={USER_PATHS.FOR_CREATE} className="lg:hidden">
                     <DropdownMenuItem>
                       {t("header-page.Create")}
                     </DropdownMenuItem>
@@ -188,21 +191,21 @@ const Header = () => {
                   <DropdownMenuItem onClick={() => handleLogout()}>
                     {t("header-page.SignOut")}
                   </DropdownMenuItem>
-                  <DropdownMenuLabel className="lg:hidden">
+                  <DropdownMenuLabel className="lg:hidden mt-1">
                     {t("header-page.Menu")}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="lg:hidden" />
-                  <NavLink to="/">
+                  <NavLink to={STATIC_PATHS.FOR_HOME}>
                     <DropdownMenuItem className="lg:hidden">
                       {t("header-page.Home")}
                     </DropdownMenuItem>
                   </NavLink>
-                  <NavLink to="/feed">
+                  <NavLink to={USER_PATHS.FOR_FEED}>
                     <DropdownMenuItem className="lg:hidden">
                       {t("header-page.Outfits")}
                     </DropdownMenuItem>
                   </NavLink>
-                  <NavLink to="/about">
+                  <NavLink to={STATIC_PATHS.FOR_ABOUT}>
                     <DropdownMenuItem className="lg:hidden">
                       {t("header-page.About")}
                     </DropdownMenuItem>

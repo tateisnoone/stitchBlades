@@ -4,8 +4,16 @@
   "FullName": "Full Name",
   "AddName": "add your name",
   "Username": "Username",
+  "Birthday": "Birthday",
+  "PickDate": "Pick a Date",
   "EditProfile": "Edit Profile",
+  "Gender": "Gender",
   "EditText": "Make changes to your profile here. Click save when you're done.",
   "Avatar": "Avatar",
-  "SaveChanges": "Save"
+  "SaveChanges": "Save",
+  "NoPosts": "No post available",
+  "NoPostsText": "Looks like you have no posts yet. Create one to get started!",
+  "Create": "Create Post",
+  "MyPosts": "My posts",
+  "StitchedPosts": "Stitched posts"
 }

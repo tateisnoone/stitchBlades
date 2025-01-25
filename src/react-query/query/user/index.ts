@@ -9,3 +9,10 @@ export const useProfileInfo = (id: string) => {
     enabled: !!id,
   });
 };
+
+// export const useGetStitchedInfo = (userId: string) => {
+//   return useQuery({
+//     queryKey: [PROFILE_QUERY_KEY.STITCHES],
+//     queryFn: () => getUserStitchedPosts(userId),
+//   });
+// };

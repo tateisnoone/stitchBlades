@@ -4,15 +4,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-//import { useMutation } from "@tanstack/react-query";
-//import { signUp } from "../../supabase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "./schema";
-import { useMutation } from "@tanstack/react-query";
-import { signUp } from "@/supabase/auth";
-
-//import { DASHBOARD_PATHS } from "@/routes/dashboard/index.enum";
+import { AUTH_PATHS } from "@/routes/default-layout/auth/index.enum";
+import { useRegister } from "@/react-query/mutation/user";
 
 type FormValues = {
   email: string;
@@ -29,10 +25,7 @@ const Register: React.FC<PropsWithChildren> = () => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { mutate: handleRegister } = useMutation({
-    mutationKey: ["signUp"],
-    mutationFn: signUp,
-  });
+  const { mutate: handleRegister } = useRegister();
   const { control, handleSubmit } = useForm<FormValues>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: DefaultValues,
@@ -45,7 +38,7 @@ const Register: React.FC<PropsWithChildren> = () => {
     }
     setAlertMessage(null);
     handleRegister(values);
-    navigate("/registered");
+    navigate(AUTH_PATHS.FOR_CONFIRM_EMAIL);
     console.log("Form submitted successfully", values);
   };
 
@@ -59,41 +52,6 @@ const Register: React.FC<PropsWithChildren> = () => {
           {t("register-page.Text")}
         </p>
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-          {/* <div className="grid w-full items-center gap-3 mb-5">
-            <Label
-              htmlFor="fullname"
-              className="text-left text-slate-900 font-body dark:text-[#B0B0B0]"
-            >
-              {t("register-page.Name")}
-            </Label>
-            <Controller
-              control={control}
-              name="fullname"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => {
-                return (
-                  <>
-                    <Input
-                      type="text"
-                      id="fullname"
-                      placeholder="Full Name"
-                      value={value}
-                      onChange={onChange}
-                      required
-                    />
-                    {error?.message ? (
-                      <span className="text-[#8B0000] font-body">
-                        {t("register-page.MinLength")}
-                      </span>
-                    ) : null}
-                  </>
-                );
-              }}
-            />
-          </div> */}
-
           <div className="grid w-full items-center gap-3 mb-5">
             <Label
               htmlFor="email"
@@ -128,41 +86,6 @@ const Register: React.FC<PropsWithChildren> = () => {
               }}
             />
           </div>
-
-          {/* <div className="grid w-full items-center gap-3 mb-5">
-            <Label
-              htmlFor="username"
-              className="text-left text-slate-900 font-body dark:text-[#B0B0B0]"
-            >
-              {t("register-page.UserName")}
-            </Label>
-            <Controller
-              control={control}
-              name="username"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => {
-                return (
-                  <>
-                    <Input
-                      type="text"
-                      id="username"
-                      placeholder="Username"
-                      value={value}
-                      onChange={onChange}
-                      required
-                    />
-                    {error?.message ? (
-                      <span className="text-[#8B0000] font-body">
-                        {t("register-page.InvalidUserName")}
-                      </span>
-                    ) : null}
-                  </>
-                );
-              }}
-            />
-          </div> */}
 
           {/* Password Field */}
           <div className="grid w-full items-center gap-3 mb-5">
@@ -234,7 +157,10 @@ const Register: React.FC<PropsWithChildren> = () => {
         {/* Sign In Link */}
         <p className="text-sm text-slate-900 dark:text-[#B0B0B0]">
           {t("register-page.HaveAccount")} {""}
-          <NavLink to="/login" className="text-[#6A0DAD] hover:underline">
+          <NavLink
+            to={AUTH_PATHS.FOR_LOGIN}
+            className="text-[#6A0DAD] hover:underline"
+          >
             {t("register-page.Sign-In")}
           </NavLink>
         </p>

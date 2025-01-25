@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { AUTH_PATHS } from "@/routes/default-layout/auth/index.enum";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
@@ -13,7 +14,9 @@ const Cta = () => {
         {t("about-us.JoinUsText")}
       </p>
       <Button className="mt-8 px-6 py-3  rounded-md bg-[#6A0DAD] hover:bg-[#6a0dadb3] ">
-        <NavLink to="/register"> {t("about-us.JoinUsButton")} </NavLink>
+        <NavLink to={AUTH_PATHS.FOR_REGISTER}>
+          {t("about-us.JoinUsButton")}
+        </NavLink>
       </Button>
     </div>
   );

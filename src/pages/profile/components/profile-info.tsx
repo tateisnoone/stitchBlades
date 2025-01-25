@@ -19,15 +19,8 @@ const ProfileInfo = () => {
   const user = useAtom(userAtom);
   const { t } = useTranslation();
   const userId = user[0]?.user.id ?? "";
-  const {
-    data: profileData,
-    isError,
-    isLoading,
-    refetch,
-  } = useProfileInfo(userId);
+  const { data: profileData, isLoading, refetch } = useProfileInfo(userId);
   console.log(profileData);
-
-  if (isError) return <p>Error loading profile info.</p>;
 
   return (
     <>
@@ -69,12 +62,15 @@ const ProfileInfo = () => {
                   {t("profile-page.Username")}: {profileData?.username}
                 </h2>
                 <h2>
-                  Birthday:{" "}
+                  {t("profile-page.Birthday")}:{" "}
                   {profileData?.birthday
                     ? new Date(profileData.birthday).toLocaleDateString()
-                    : t("profile-page.AddBirthday")}
+                    : ""}
                 </h2>
-                <h2> Gender: {profileData?.gender}</h2>
+                <h2>
+                  {" "}
+                  {t("profile-page.Gender")}: {profileData?.gender}
+                </h2>
               </CardContent>
               <CardFooter className="p-0">
                 <EditProfile refetch={refetch} />

@@ -38,7 +38,7 @@ export const getComments = async (postId: number): Promise<PostComment[]> => {
   try {
     const { data, error } = await supabase
       .from("post_comments")
-      .select("*")
+      .select("*, profiles(username, avatar_url)")
       .eq("post_id", postId);
     if (error) {
       throw new Error(error.message);
@@ -208,24 +208,5 @@ export const getPostsBySearch = async (
   } catch (error) {
     console.error(error);
     return [];
-  }
-};
-
-export const getUserStitchedPosts = async (
-  userId: string,
-): Promise<Stitches[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("stitched_posts")
-      .select("*")
-      .eq("stitched_by", userId); // Filter by userId
-
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching user stitched posts:", error);
-    throw new Error(`Failed to fetch user stitched posts: ${error}`);
   }
 };

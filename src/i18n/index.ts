@@ -14,6 +14,12 @@ import aboutUsEn from "./en/pages/about-us.json";
 import aboutUsKa from "./ka/pages/about-us.json";
 import footerEn from "./en/pages/footer.json";
 import footerKa from "./ka/pages/footer.json";
+import feedEn from "./en/pages/feed.json";
+import feedKa from "./ka/pages/feed.json";
+import homeEn from "./en/pages/home.json";
+import homeKa from "./ka/pages/home.json";
+import notFoundEn from "./en/pages/not-found.json";
+import notFoundKa from "./ka/pages/not-found.json";
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -26,6 +32,9 @@ i18n.use(initReactI18next).init({
         "create-post": createPostKa,
         "about-us": aboutUsKa,
         "footer-page": footerKa,
+        "feed-page": feedKa,
+        "home-page": homeKa,
+        "not-found": notFoundKa,
       },
     },
     en: {
@@ -37,6 +46,9 @@ i18n.use(initReactI18next).init({
         "create-post": createPostEn,
         "about-us": aboutUsEn,
         "footer-page": footerEn,
+        "feed-page": feedEn,
+        "home-page": homeEn,
+        "not-found": notFoundEn,
       },
     },
   },

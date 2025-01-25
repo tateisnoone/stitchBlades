@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
 import { Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const NoPosts = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const handleCreatePost = () => {
-    navigate("/create");
+    navigate(USER_PATHS.FOR_CREATE);
   };
 
   return (
@@ -14,13 +17,13 @@ const NoPosts = () => {
         <Info className="w-12 h-12 text-gray-500 dark:text-gray-400" />
       </div>
       <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300">
-        No Posts Available
+        {t("profile-page.NoPosts")}
       </h2>
       <p className="text-gray-500 dark:text-gray-400">
-        It looks like there are no posts yet. Create one to get started!
+        {t("profile-page.NoPostsText")}
       </p>
       <Button onClick={handleCreatePost} className="mt-4">
-        Create a Post
+        {t("profile-page.Create")}
       </Button>
     </div>
   );

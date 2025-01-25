@@ -74,13 +74,15 @@ export type CategoryType =
 export type PostComment = {
   id: number;
   created_at: string;
-  post_id: number;
+  post_id: number | null;
   user_id: string | null;
   comment_text: string | null;
   profiles: {
     username: string | null;
+    avatar_url: string | null;
   } | null;
 };
+
 export type Stitches = {
   id: number;
   created_at: string;

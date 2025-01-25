@@ -1,10 +1,12 @@
-import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 type SortProps = {
   sortOrder: "newest" | "oldest";
@@ -12,25 +14,27 @@ type SortProps = {
 };
 
 const Sort: React.FC<SortProps> = ({ sortOrder, setSortOrder }) => {
+  const { t } = useTranslation();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <button className="rounded-md border px-4 py-2 text-gray-700 dark:text-gray-300 dark:border-neutral-800 hover:bg-gray-100 dark:hover:bg-neutral-800">
-          Sort by Date
-        </button>
+      <DropdownMenuTrigger className="flex justify-between items-center">
+        <Button className="border-none bg-inherit hover:bg-inherit text-black dark:text-white w-24 font-body">
+          {t("feed-page.SortTitle")}
+        </Button>
+        <ChevronDown strokeWidth={1.25} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="dark:bg-neutral-900">
+      <DropdownMenuContent>
         <DropdownMenuItem
           onClick={() => setSortOrder("newest")}
           className={sortOrder === "newest" ? "font-bold" : ""}
         >
-          Newest
+          {t("feed-page.Newest")}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setSortOrder("oldest")}
           className={sortOrder === "oldest" ? "font-bold" : ""}
         >
-          Oldest
+          {t("feed-page.Oldest")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

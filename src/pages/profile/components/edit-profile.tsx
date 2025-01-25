@@ -37,11 +37,16 @@ import {
 import { useUpdateProfileInfo } from "@/react-query/mutation/user";
 import { toast } from "sonner";
 import { FillProfileInfoPayload } from "@/supabase/profile/index.types";
+import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
+import { useProfileInfo } from "@/react-query/query/user";
 
 export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState("");
   const user = useAtom(userAtom);
+  const userId = user[0]?.user.id ?? "";
+  const { data: profileData } = useProfileInfo(userId);
+
   const navigate = useNavigate();
   const [gender, setGender] = useState<
     "Female" | "Male" | "Non-Binary" | "Prefer Not To Say" | null | undefined
@@ -52,10 +57,15 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FillProfileInfoPayload>();
+  } = useForm<FillProfileInfoPayload>({
+    defaultValues: {
+      full_name: profileData?.full_name || "",
+      username: profileData?.username || "",
+    },
+  });
 
   const { mutate: handleProfileInfo } = useUpdateProfileInfo();
-  const userId = user[0]?.user.id ?? "";
+
   const genders = ["Female", "Male", "Non-Binary", "Prefer Not To Say"];
   const avatars = [
     {
@@ -93,7 +103,7 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
         onSuccess: () => {
           setIsDialogOpen(false);
           refetch();
-          navigate("/profile");
+          navigate(USER_PATHS.FOR_PROFILE);
           toast("Profile info has been updated!");
         },
         onError: () => {
@@ -166,7 +176,7 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="username" className="text-right font-body">
-                BirthDate
+                {t("profile-page.Birthday")}
               </Label>
               {/* Date Picker */}
               <Popover>
@@ -179,7 +189,11 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    {date ? (
+                      format(date, "PPP")
+                    ) : (
+                      <span> {t("profile-page.PickDate")}</span>
+                    )}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -194,7 +208,7 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
             </div>
             <div className="flex items-center justify-start gap-4 mb-5">
               <Label htmlFor="picture" className="font-body ml-9 mr-1">
-                Gender
+                {t("profile-page.Gender")}
               </Label>
               <Select onValueChange={handleGenderSelect}>
                 <SelectTrigger className="w-full font-body">

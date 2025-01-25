@@ -6,7 +6,6 @@ import {
   getPosts,
   getPostsBySearch,
   getStitches,
-  getUserStitchedPosts,
 } from "@/supabase/posts";
 import { CategoryType } from "@/supabase/posts/index.types";
 
@@ -43,12 +42,12 @@ export const useGetPostsBySearch = (
   });
 };
 
-export const useGetUserStitchedPosts = (userId: string) => {
-  return useQuery({
-    queryKey: [POSTS_QUERY_KEY.USER_STITCHED_POSTS, userId],
-    queryFn: () => getUserStitchedPosts(userId),
-  });
-};
+// export const useGetUserStitchedPosts = (userId: string) => {
+//   return useQuery({
+//     queryKey: [POSTS_QUERY_KEY.USER_STITCHED_POSTS, userId],
+//     queryFn: () => getUserStitchedPosts(userId),
+//   });
+// };
 
 export const useGetPostById = (postId: number) => {
   return useQuery({

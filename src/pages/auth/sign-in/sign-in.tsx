@@ -2,17 +2,13 @@ import { PropsWithChildren } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-//import { useMutation } from "@tanstack/react-query";
-//import { signUp } from "../../supabase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "./schema";
-import { useMutation } from "@tanstack/react-query";
-import { login } from "@/supabase/auth";
-
-//import { DASHBOARD_PATHS } from "@/routes/dashboard/index.enum";
+import { useLogin } from "@/react-query/mutation/user";
+import { AUTH_PATHS } from "@/routes/default-layout/auth/index.enum";
 
 type FormValues = {
   email: string;
@@ -25,18 +21,7 @@ const DefaultValues = {
 };
 const LogIn: React.FC<PropsWithChildren> = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-
-  const { mutate: handleLogin } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: login,
-    onSuccess: () => {
-      navigate("/profile");
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutate: handleLogin } = useLogin();
   const { control, handleSubmit } = useForm<FormValues>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: DefaultValues,
@@ -130,7 +115,10 @@ const LogIn: React.FC<PropsWithChildren> = () => {
         {/* Sign In Link */}
         <p className="text-sm text-slate-900 dark:text-[#B0B0B0]">
           {t("sign-in.HaveAccount")} {""}
-          <NavLink to="/register" className="text-[#6A0DAD] hover:underline">
+          <NavLink
+            to={AUTH_PATHS.FOR_REGISTER}
+            className="text-[#6A0DAD] hover:underline"
+          >
             {t("sign-in.Sign-Up")}
           </NavLink>
         </p>

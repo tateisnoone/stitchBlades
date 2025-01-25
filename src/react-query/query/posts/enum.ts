@@ -4,5 +4,5 @@ export enum POSTS_QUERY_KEY {
   POST_BY_ID = "post-by-id",
   POST_COMMENTS = "post-comments",
   POST_STITCHES = "post-stitches",
-  USER_STITCHED_POSTS = "user-stitched-posts"
+  USER_STITCHED_POSTS = "user-stitched-posts",
 }

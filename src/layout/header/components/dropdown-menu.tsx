@@ -5,12 +5,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AUTH_PATHS } from "@/routes/default-layout/auth/index.enum";
+import { STATIC_PATHS } from "@/routes/default-layout/static/index.enum";
+import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
 import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
 import { Menu } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 const HeaderDropdownMenu = () => {
   const [user] = useAtom(userAtom);
+  const { t } = useTranslation();
   return (
     <>
       {user ? null : (
@@ -20,17 +25,17 @@ const HeaderDropdownMenu = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuSeparator />
-            <NavLink to="/login">
-              <DropdownMenuItem>Log In</DropdownMenuItem>
+            <NavLink to={AUTH_PATHS.FOR_LOGIN}>
+              <DropdownMenuItem> {t("header-page.SignIn")}</DropdownMenuItem>
             </NavLink>
-            <NavLink to="/">
-              <DropdownMenuItem>Home</DropdownMenuItem>
+            <NavLink to={STATIC_PATHS.FOR_HOME}>
+              <DropdownMenuItem> {t("header-page.Home")}</DropdownMenuItem>
             </NavLink>
-            <NavLink to="/feed">
-              <DropdownMenuItem>Outfits</DropdownMenuItem>
+            <NavLink to={USER_PATHS.FOR_FEED}>
+              <DropdownMenuItem> {t("header-page.Outfits")}</DropdownMenuItem>
             </NavLink>
-            <NavLink to="/about">
-              <DropdownMenuItem>About Us</DropdownMenuItem>
+            <NavLink to={STATIC_PATHS.FOR_ABOUT}>
+              <DropdownMenuItem>{t("header-page.About")}</DropdownMenuItem>
             </NavLink>
           </DropdownMenuContent>
         </DropdownMenu>

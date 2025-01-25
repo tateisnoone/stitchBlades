@@ -19,6 +19,7 @@ import { Post } from "@/supabase/posts/index.types";
 import { truncateText } from "@/utils/string-utils";
 import { Button } from "./button";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface PostCardProps {
   post: Post;
@@ -35,6 +36,7 @@ const PostCard: React.FC<PostCardProps> = ({
   handleDelete,
   style,
 }) => {
+  const { t } = useTranslation();
   const postImageUrl = post?.image_url
     ? `${import.meta.env.VITE_SUPABASE_OUTFIT_IMAGES_STORAGE_URL}/${post?.image_url}`
     : "";
@@ -65,7 +67,7 @@ const PostCard: React.FC<PostCardProps> = ({
                   className="font-body text-sm cursor-pointer"
                   onClick={() => handleDelete(post.id)}
                 >
-                  Delete
+                  {t("feed-page.Delete")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -88,7 +90,8 @@ const PostCard: React.FC<PostCardProps> = ({
         </Badge>
         <NavLink to={`/post/${post.id}`}>
           <Button className="bg-inherit border-none font-body text-black dark:text-white  text-sm hover:bg-inherit hover:text-[#6A0DAD] dark:hover:text-[#6A0DAD] transition-all">
-            Details <ArrowRight size={48} strokeWidth={2.25} />
+            {t("feed-page.Details")}
+            <ArrowRight size={48} strokeWidth={2.25} />
           </Button>
         </NavLink>
       </CardFooter>

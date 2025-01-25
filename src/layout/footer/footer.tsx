@@ -4,6 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { STATIC_PATHS } from "@/routes/default-layout/static/index.enum";
+import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
 
 import { Github, Instagram, Linkedin } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -49,18 +52,13 @@ export const Footer: React.FC = () => {
           </h3>
           <ul className="mt-4 space-y-2 text-secondary-foreground">
             <li>
-              <NavLink to="/about" className="hover:underline">
+              <NavLink to={STATIC_PATHS.FOR_ABOUT} className="hover:underline">
                 {t("footer-page.About")}
               </NavLink>
             </li>
             <li>
-              <NavLink to="/community" className="hover:underline">
+              <NavLink to={USER_PATHS.FOR_FEED} className="hover:underline">
                 {t("footer-page.Community")}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/contact" className="hover:underline">
-                {t("footer-page.Contact")}
               </NavLink>
             </li>
           </ul>
@@ -79,12 +77,12 @@ export const Footer: React.FC = () => {
               placeholder={t("footer-page.EmailPlaceholder")}
               className="px-4 py-2 bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            <button
+            <Button
               type="submit"
-              className="ml-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/80"
+              className="ml-4  bg-[#6A0DAD] hover:bg-[#6a0dadb3]"
             >
               {t("footer-page.Subscribe")}
-            </button>
+            </Button>
           </form>
         </div>
 
@@ -94,18 +92,16 @@ export const Footer: React.FC = () => {
             <AccordionContent>
               <ul className="mt-4 space-y-2 text-secondary-foreground">
                 <li>
-                  <NavLink to="/about" className="hover:underline">
+                  <NavLink
+                    to={STATIC_PATHS.FOR_ABOUT}
+                    className="hover:underline"
+                  >
                     {t("footer-page.About")}
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/community" className="hover:underline">
+                  <NavLink to={USER_PATHS.FOR_FEED} className="hover:underline">
                     {t("footer-page.Community")}
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/contact" className="hover:underline">
-                    {t("footer-page.Contact")}
                   </NavLink>
                 </li>
               </ul>

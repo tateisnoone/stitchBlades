@@ -8,14 +8,13 @@ import NoPosts from "./no-posts";
 import { toast } from "sonner";
 import PostCard from "@/components/ui/outfit-card";
 import { formatCreatedAt } from "@/utils/date-utils";
+import { useTranslation } from "react-i18next";
 
 const ProfileTabs = () => {
   const user = useAtom(userAtom);
+  const { t } = useTranslation();
   const userId = user[0]?.user.id ?? "";
   const { data: postsData, refetch } = useGetPosts();
-  //const postUserId = postsData?.[1]?.user_id;
-  //console.log("postuserid:", postUserId);
-
   const { mutate: deletePost } = useDeletePost();
 
   const handleDelete = async (id: number) => {
@@ -36,12 +35,8 @@ const ProfileTabs = () => {
       <div className="flex justify-center items-center mb-10">
         <Tabs defaultValue="myPosts">
           <TabsList className="xs:w-[250px] ss:w-[400px] sm:w-[600px] ">
-            <TabsTrigger value="myPosts" className="w-1/2">
-              My Posts
-            </TabsTrigger>
-            <TabsTrigger value="stitchedPosts" className="w-1/2">
-              Stitched Posts{" "}
-              <div className="bg-[url('/src/assets/images/stitchIconB.png')] bg-no-repeat bg-contain dark:bg-[url('/src/assets/images/stitchIconW.png')] size-5 cursor-pointer ml-2"></div>
+            <TabsTrigger value="myPosts" className="w-full">
+              {t("profile-page.MyPosts")}
             </TabsTrigger>
           </TabsList>
           <TabsContent
@@ -70,12 +65,6 @@ const ProfileTabs = () => {
                 <NoPosts />
               )}
             </ScrollArea>
-          </TabsContent>
-          <TabsContent
-            value="stitchedPosts"
-            className="xs:w-[250px] ss:w-[400px] sm:w-[600px]"
-          >
-            Change your password here.
           </TabsContent>
         </Tabs>
       </div>

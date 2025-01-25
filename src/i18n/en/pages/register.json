@@ -14,5 +14,8 @@
   "NameRequired": "Name is required",
   "InvalidEmail": "Email format is incorrect",
   "MinLength": "Name should cointain more than 3 characters (╥﹏╥)",
-  "PasswordMatch": "Passwords don't match"
+  "PasswordMatch": "Passwords don't match",
+  "CheckEmail": "Check Your Email",
+  "ConfirmEmailText": "A confirmation email has been sent to your mail. Please check your inbox and follow the instructions to verify your account",
+  "GoToLogin": "Go to login"
 }

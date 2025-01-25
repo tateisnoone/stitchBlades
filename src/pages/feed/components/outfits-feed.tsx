@@ -17,6 +17,16 @@ import CategoriesFilter from "./categories-filter";
 import Sort from "./sort";
 import SearchInput from "./search";
 import { formatCreatedAt } from "@/utils/date-utils";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+  PaginationLink,
+} from "@/components/ui/pagination";
+import { useTranslation } from "react-i18next";
 
 export type PostsFilterFormValues = {
   searchText: string;
@@ -24,7 +34,8 @@ export type PostsFilterFormValues = {
 
 const OutfitsFeed: React.FC = () => {
   const [user] = useAtom(userAtom);
-
+  const { t } = useTranslation();
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<
     CategoryType | undefined
   >();
@@ -59,7 +70,7 @@ const OutfitsFeed: React.FC = () => {
     try {
       await deletePost(id, {
         onSuccess: () => {
-          toast("Post has been deleted!");
+          toast(t("feed-page.PostDeleted"));
           refetch();
         },
       });
@@ -75,6 +86,13 @@ const OutfitsFeed: React.FC = () => {
   });
 
   // Paginated Posts
+  const postsPerPage = 9;
+  const totalPosts = sortedPosts?.length || 0;
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const paginatedPosts = sortedPosts?.slice(
+    (currentPage - 1) * postsPerPage,
+    currentPage * postsPerPage,
+  );
 
   return (
     <>
@@ -84,11 +102,9 @@ const OutfitsFeed: React.FC = () => {
           setSelectedCategory={setSelectedCategory}
         />
         <div className="px-4 mt-8 mb-8 font-sans flex flex-col w-full">
-          <h1 className="text-2xl mb-2">Search Outfits</h1>
-          <p className="mb-5 text-gray-500">
-            You can stitch your favorite outfits by clicking on stitch icon
-          </p>
-          <div className="flex w-full justify-between">
+          <h1 className="text-2xl mb-2">{t("feed-page.Title")}</h1>
+          <p className="mb-5 text-gray-500">{t("feed-page.Text")}</p>
+          <div className="flex w-full justify-start gap-2 h-20 items-center">
             <SearchInput
               control={control}
               handleSearchChange={handleSearchChange}
@@ -99,22 +115,67 @@ const OutfitsFeed: React.FC = () => {
           {isLoading ? (
             <PostLoadingPlaceholder />
           ) : (
-            <div className="flex flex-wrap w-full justify-center gap-10 xl:justify-start ">
-              {sortedPosts && sortedPosts.length > 0 ? (
-                sortedPosts.map((post) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    userId={userId || ""}
-                    formatCreatedAt={formatCreatedAt}
-                    handleDelete={handleDelete}
-                    style={"w-[290px]"}
-                  />
-                ))
-              ) : (
-                <NoResults />
+            <>
+              <div className="flex flex-wrap w-full justify-center gap-10 xl:justify-start">
+                {paginatedPosts && paginatedPosts.length > 0 ? (
+                  paginatedPosts.map((post) => (
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      userId={userId || ""}
+                      formatCreatedAt={formatCreatedAt}
+                      handleDelete={handleDelete}
+                      style={"w-[290px]"}
+                    />
+                  ))
+                ) : (
+                  <NoResults />
+                )}
+              </div>
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        onClick={() =>
+                          setCurrentPage((prev) => Math.max(prev - 1, 1))
+                        }
+                      />
+                    </PaginationItem>
+                    {Array.from({ length: totalPages }).map((_, index) => (
+                      <PaginationItem key={index}>
+                        <PaginationLink
+                          href="#"
+                          onClick={() => setCurrentPage(index + 1)}
+                          className={
+                            index + 1 === currentPage ? "font-bold" : ""
+                          }
+                        >
+                          {index + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    {currentPage < totalPages && (
+                      <PaginationItem>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                    )}
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        onClick={() =>
+                          setCurrentPage((prev) =>
+                            Math.min(prev + 1, totalPages),
+                          )
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               )}
-            </div>
+            </>
           )}
         </div>
       </div>
