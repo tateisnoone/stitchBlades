@@ -31,6 +31,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useProfileInfo } from "@/react-query/query/user";
 import LoginToComment from "./log-in-to-comment";
+import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
 
 const SinglePost = () => {
   const user = useAtom(userAtom);
@@ -45,17 +46,11 @@ const SinglePost = () => {
   const { mutate: addComment } = useAddComment();
   const { mutate: deletePost } = useDeletePost();
   const numericPostId = postId ? Number(postId) : undefined;
-  const {
-    data: post,
-    isLoading,
-    error,
-  } = useGetPostById(numericPostId as number);
+  const { data: post } = useGetPostById(numericPostId as number);
   const { data: postComment, refetch } = useGetComments(
     numericPostId as number,
   );
-  console.log(postComment);
-  if (isLoading) return <p>Loading post...</p>;
-  if (error) return <p>Error loading post: {error.message}</p>;
+
   if (!post) return <p>Post not found.</p>;
 
   const handleStitch = () => {
@@ -104,19 +99,15 @@ const SinglePost = () => {
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      await deletePost(id, {
-        onSuccess: () => {
-          toast("Post has been deleted!");
-          navigate("/feed");
-        },
-        onError: (err) => {
-          toast.error(`Error adding comment: ${err.message}`);
-        },
-      });
-    } catch (error) {
-      console.error("Error deleting post:", error);
-    }
+    deletePost(id, {
+      onSuccess: () => {
+        toast("Post has been deleted!");
+        navigate(USER_PATHS.FOR_FEED);
+      },
+      onError: () => {
+        toast.error(t("feed-page.PostDeleteFailed"));
+      },
+    });
   };
 
   const postImageUrl = post?.image_url

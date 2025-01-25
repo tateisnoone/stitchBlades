@@ -18,16 +18,16 @@ const ProfileTabs = () => {
   const { mutate: deletePost } = useDeletePost();
 
   const handleDelete = async (id: number) => {
-    try {
-      await deletePost(id, {
-        onSuccess: () => {
-          toast("Post has been deleted!");
-          refetch();
-        },
-      });
-    } catch (error) {
-      console.error("Error deleting post:", error);
-    }
+    deletePost(id, {
+      onSuccess: () => {
+        toast(t("feed-page.PostDeleted"));
+        refetch();
+      },
+      onError: () => {
+        toast.error(t("feed-page.PostDeleteFailed"));
+        refetch();
+      },
+    });
   };
 
   return (

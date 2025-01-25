@@ -20,7 +20,6 @@ const ProfileInfo = () => {
   const { t } = useTranslation();
   const userId = user[0]?.user.id ?? "";
   const { data: profileData, isLoading, refetch } = useProfileInfo(userId);
-  console.log(profileData);
 
   return (
     <>

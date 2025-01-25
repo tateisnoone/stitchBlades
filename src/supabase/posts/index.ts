@@ -2,18 +2,13 @@ import { supabase } from "..";
 import { CategoryType, Post, PostComment, Stitches } from "./index.types";
 
 export const getPosts = async (): Promise<Post[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("outfit_posts")
-      .select("*, profiles!outfit_posts_user_id_fkey(username)");
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    throw new Error(`Failed to fetch posts: ${error}`);
+  const { data, error } = await supabase
+    .from("outfit_posts")
+    .select("*, profiles!outfit_posts_user_id_fkey(username)");
+  if (error) {
+    throw new Error(error.message);
   }
+  return data || [];
 };
 
 export const getPostById = async (postId: number): Promise<Post | null> => {
