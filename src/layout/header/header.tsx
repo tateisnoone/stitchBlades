@@ -20,6 +20,12 @@ import { useProfileInfo } from "@/react-query/query/user";
 import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
 import { AUTH_PATHS } from "@/routes/default-layout/auth/index.enum";
 import { STATIC_PATHS } from "@/routes/default-layout/static/index.enum";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Header = () => {
   const user = useAtom(userAtom);
@@ -143,11 +149,23 @@ const Header = () => {
         <div className="w-40 lg:w-64 flex justify-between">
           {userId ? (
             <>
-              <NavLink to={USER_PATHS.FOR_CREATE} className="hidden lg:block">
-                <Button className="bg-[#6A0DAD] hover:bg-[#6a0dadb3] font-title text-lg">
-                  {t("header-page.Create")}
-                </Button>
-              </NavLink>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <NavLink
+                      to={USER_PATHS.FOR_CREATE}
+                      className="hidden lg:block"
+                    >
+                      <Button className="bg-[#6A0DAD] hover:bg-[#6a0dadb3] font-title text-lg">
+                        {t("header-page.Create")}
+                      </Button>
+                    </NavLink>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Add a post</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </>
           ) : (
             <NavLink to={AUTH_PATHS.FOR_LOGIN} className="hidden lg:block">
@@ -161,6 +179,7 @@ const Header = () => {
             onClick={handleStitchClick}
             className="bg-[url('/src/assets/images/stitchIconB.png')] bg-no-repeat bg-contain dark:bg-[url('/src/assets/images/stitchIconW.png')] size-7 cursor-pointer mt-1"
           ></div>
+
           <LanguageSwitcher />
           <ModeToggle />
           <HeaderDropdownMenu />

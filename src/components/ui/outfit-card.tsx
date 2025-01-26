@@ -20,6 +20,14 @@ import { truncateText } from "@/utils/string-utils";
 import { Button } from "./button";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./tooltip";
+import { useStitchPost } from "@/react-query/mutation/posts";
+import { toast } from "sonner";
 
 interface PostCardProps {
   post: Post;
@@ -37,6 +45,25 @@ const PostCard: React.FC<PostCardProps> = ({
   style,
 }) => {
   const { t } = useTranslation();
+  const { mutate: stitchPost } = useStitchPost();
+  const handleStitch = () => {
+    if (!userId) {
+      toast.error("You need to log in to stitch this post!");
+      return;
+    }
+
+    stitchPost(
+      { postId: Number(post.id), userId },
+      {
+        onSuccess: () => {
+          toast.success("You stitched this post!");
+        },
+        onError: (err) => {
+          toast.error(`Error stitching post: ${err.message}`);
+        },
+      },
+    );
+  };
   const postImageUrl = post?.image_url
     ? `${import.meta.env.VITE_SUPABASE_OUTFIT_IMAGES_STORAGE_URL}/${post?.image_url}`
     : "";
@@ -72,7 +99,20 @@ const PostCard: React.FC<PostCardProps> = ({
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <div className="bg-[url('/src/assets/images/stitchIconB.png')] bg-no-repeat bg-contain dark:bg-[url('/src/assets/images/stitchIconW.png')] size-7 cursor-pointer"></div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  {" "}
+                  <div
+                    className="bg-[url('/src/assets/images/stitchIconB.png')] bg-no-repeat bg-contain w-7 h-7 cursor-pointer dark:bg-[url('/src/assets/images/stitchIconW.png')]"
+                    onClick={handleStitch}
+                  ></div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Stitch</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
         </CardTitle>
 

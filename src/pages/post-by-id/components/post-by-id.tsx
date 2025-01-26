@@ -32,6 +32,12 @@ import { useTranslation } from "react-i18next";
 import { useProfileInfo } from "@/react-query/query/user";
 import LoginToComment from "./log-in-to-comment";
 import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const SinglePost = () => {
   const user = useAtom(userAtom);
@@ -45,6 +51,7 @@ const SinglePost = () => {
   const { mutate: stitchPost } = useStitchPost();
   const { mutate: addComment } = useAddComment();
   const { mutate: deletePost } = useDeletePost();
+
   const numericPostId = postId ? Number(postId) : undefined;
   const { data: post } = useGetPostById(numericPostId as number);
   const { data: postComment, refetch } = useGetComments(
@@ -145,7 +152,6 @@ const SinglePost = () => {
               {post?.title}
             </h1>
 
-            {/* Post Metadata */}
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               By {post?.profiles?.username}, {formatCreatedAt(post.created_at)}
             </p>
@@ -182,10 +188,20 @@ const SinglePost = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <div
-                className="bg-[url('/src/assets/images/stitchIconB.png')] bg-no-repeat bg-contain w-7 h-7 cursor-pointer dark:bg-[url('/src/assets/images/stitchIconW.png')]"
-                onClick={handleStitch}
-              ></div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    {" "}
+                    <div
+                      className="bg-[url('/src/assets/images/stitchIconB.png')] bg-no-repeat bg-contain w-7 h-7 cursor-pointer dark:bg-[url('/src/assets/images/stitchIconW.png')]"
+                      onClick={handleStitch}
+                    ></div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Stitch</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             )}
           </CardFooter>
         </div>
