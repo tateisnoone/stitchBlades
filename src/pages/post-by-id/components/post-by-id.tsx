@@ -38,6 +38,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Loader from "@/components/ui/loading";
 
 const SinglePost = () => {
   const user = useAtom(userAtom);
@@ -58,7 +59,7 @@ const SinglePost = () => {
     numericPostId as number,
   );
 
-  if (!post) return <p>Post not found.</p>;
+  if (!post) return <Loader />;
 
   const handleStitch = () => {
     if (!userId) {
