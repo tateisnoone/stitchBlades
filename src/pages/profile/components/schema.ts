@@ -1,20 +1,17 @@
 import { z } from "zod";
 
-export const createFormSchema = z.object({
-  title: z
+export const profileSchema = z.object({
+  full_name: z
     .string()
-    .min(3, { message: "Title must be at least 3 characters long." })
-    .max(100, { message: "Title cannot exceed 100 characters." }),
-  description: z
+    .min(3, { message: "Full name must be at least 3 characters long." })
+    .max(30, { message: "Full name cannot exceed 30 characters." }),
+
+  username: z
     .string()
-    .min(3, { message: "Description must be at least 3 characters long." })
-    .max(500, { message: "Description cannot exceed 500 characters." }),
-  category: z
-    .string()
-    .min(1, { message: "Category is required. Please select a category." }),
-  image_url: z
-    .instanceof(File, { message: "A valid image file is required." })
-    .refine((file) => file.size > 0, {
-      message: "Image file cannot be empty.",
-    }),
+    .min(3, { message: "Username must be at least 3 characters long." })
+    .max(15, { message: "Username cannot exceed 15 characters." }),
+
+  gender: z.string().nullable(),
+  avatar_url: z.string().optional(),
+  birthday: z.date().nullable(),
 });

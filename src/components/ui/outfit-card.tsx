@@ -44,7 +44,7 @@ const PostCard: React.FC<PostCardProps> = ({
   return (
     <Card
       key={post.id}
-      className={`rounded-lg border-solid border-b border-zinc-200 dark:border-zinc-700 h-[440px] mb-5 ${style}`}
+      className={`rounded-lg border-solid border-b border-zinc-200 dark:border-zinc-700 sm:h-[440px] mb-5 ${style}`}
     >
       <CardHeader className="p-0">
         <div
@@ -81,7 +81,7 @@ const PostCard: React.FC<PostCardProps> = ({
         </CardDescription>
         <p className="text-sm">{truncateText(post?.description ?? "", 55)}</p>
       </CardContent>
-      <CardFooter className="flex flex-wrap justify-between">
+      <CardFooter className="flex sm:flex-wrap justify-between p-2 pt-0 sm:p-6 sm:pt-0">
         <Badge
           variant="outline"
           className="bg-[#EEF2FF] text-[#824ea2] dark:bg-[#f4eeff] dark:text-[#854ea2]"
