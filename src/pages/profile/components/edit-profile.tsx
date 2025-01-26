@@ -39,6 +39,8 @@ import { toast } from "sonner";
 import { FillProfileInfoPayload } from "@/supabase/profile/index.types";
 import { USER_PATHS } from "@/routes/default-layout/user/index.enum";
 import { useProfileInfo } from "@/react-query/query/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileSchema } from "./schema";
 
 export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -58,6 +60,7 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FillProfileInfoPayload>({
+    resolver: zodResolver(profileSchema),
     defaultValues: {
       full_name: profileData?.full_name || "",
       username: profileData?.username || "",
@@ -106,8 +109,32 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
           navigate(USER_PATHS.FOR_PROFILE);
           toast("Profile info has been updated!");
         },
-        onError: () => {
-          <p>Something went wrong!</p>;
+        onError: (err) => {
+          if (
+            err.message ===
+            'duplicate key value violates unique constraint "profiles_username_key"'
+          ) {
+            toast.error(
+              "This username is already taken. Please choose another one.",
+              {
+                style: {
+                  backgroundColor: "#8B0000",
+                  color: "#ffffff",
+                },
+              },
+            );
+            return;
+          }
+
+          toast.error(
+            err?.message || "Profile couldn't be updated. Please try again.",
+            {
+              style: {
+                backgroundColor: "#8B0000",
+                color: "#ffffff",
+              },
+            },
+          );
         },
       },
     );
@@ -142,11 +169,9 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 })}
                 className="col-span-3"
               />
-              {errors.full_name?.message && (
-                <span className="text-red-500">
-                  {typeof errors.full_name.message === "string"
-                    ? errors.full_name.message
-                    : t("sign-up.MinLength")}
+              {errors.full_name && (
+                <span className="text-[#8B0000] col-span-4">
+                  {errors.full_name.message}
                 </span>
               )}
             </div>
@@ -166,11 +191,10 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 })}
                 className="col-span-3"
               />
-              {errors.username?.message && (
-                <span className="text-red-500">
-                  {typeof errors.username.message === "string"
-                    ? errors.username.message
-                    : t("sign-up.MinLength")}
+
+              {errors.username && (
+                <span className="text-[#8B0000] w-full col-span-4">
+                  {errors.username.message}
                 </span>
               )}
             </div>
@@ -205,6 +229,11 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                   />
                 </PopoverContent>
               </Popover>
+              {errors.birthday && (
+                <span className="text-[#8B0000] col-span-4">
+                  {errors.birthday.message}
+                </span>
+              )}
             </div>
             <div className="flex items-center justify-start gap-4 mb-5">
               <Label htmlFor="picture" className="font-body ml-9 mr-1">
@@ -222,6 +251,11 @@ export const EditProfile: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                   ))}
                 </SelectContent>
               </Select>
+              {errors.gender && (
+                <span className="text-[#8B0000] col-span-4">
+                  {errors.gender.message}
+                </span>
+              )}
             </div>
             <div className="flex items-center justify-start gap-4 mb-5">
               <Label htmlFor="picture" className="font-body ml-9 mr-1">
